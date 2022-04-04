@@ -10,7 +10,5 @@ public interface BillingService  extends CommonService<Billing>{
     public Billing create(Billing billingRequest) throws Exception;
     public Billing update(Billing billing)  throws Exception;
     public void deleteById(Long id)  throws Exception;
-
-
     List<Billing> findByHomeId(Long homeId) throws Exception;
 }

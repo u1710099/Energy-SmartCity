@@ -2,12 +2,14 @@ package com.idigital.epam.energy.payload;
 
 import com.idigital.epam.energy.enums.BuildingType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class EnergyResponse {
     private Long id;
     //private Integer previousReading;

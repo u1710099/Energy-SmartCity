@@ -1,5 +1,13 @@
 package com.idigital.epam.energy.service.DTO;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+@Builder
 public class RequestPayment {
     private String title = "Payment for energy";
     private String description = "Please pay in  5days";
@@ -20,46 +28,4 @@ public class RequestPayment {
         this.citizenCardNumber = citizenCardNumber;
     }
 
-    public RequestPayment() {
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    public String getCitizenCardNumber() {
-        return citizenCardNumber;
-    }
-
-    public void setCitizenCardNumber(String citizenCardNumber) {
-        this.citizenCardNumber = citizenCardNumber;
-    }
 }

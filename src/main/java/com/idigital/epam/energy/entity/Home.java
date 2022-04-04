@@ -2,10 +2,7 @@ package com.idigital.epam.energy.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.idigital.epam.energy.enums.BuildingType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Home {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,11 @@
 package com.idigital.epam.energy.common;
 
+import com.idigital.epam.energy.entity.Billing;
+import com.idigital.epam.energy.entity.EnergyMeter;
+import com.idigital.epam.energy.entity.Home;
 import com.idigital.epam.energy.entity.User;
+import com.idigital.epam.energy.enums.BuildingType;
+import com.idigital.epam.energy.payload.EnergyResponse;
 import com.idigital.epam.energy.service.DTO.*;
 
 public class CommonTestObjects {
@@ -47,5 +52,39 @@ public class CommonTestObjects {
                 .success(true)
                 .build();
 
+    }
+
+    public static EnergyResponse getEnergyResponse(){
+        return EnergyResponse
+                .builder()
+                .id(90L)
+                .buildingType(BuildingType.RESIDENTIAL)
+                .energyConsumption(11)
+                .cardNumber("1111111")
+                .firstName("AB")
+                .homeCode(1L)
+                .build();
+    }
+
+    public static EnergyMeter getEnergyMeter(){
+        return EnergyMeter
+                .builder()
+                .id(90L)
+                .energyConsumption(11)
+                .previousReading(111)
+                .energyConsumption(222)
+                .build();
+    }
+
+    public static Billing getBilling(){
+        return Billing
+                .builder()
+                .energyConsumption(122)
+                .amountEnergyConsumption(33343)
+                .sum(332)
+                .id(1L)
+                .energyMeter(
+                        getEnergyMeter()
+                ).build();
     }
 }
