@@ -137,4 +137,9 @@ public class UserServiceImplTest {
         User u = userService.getCurrentUser();
         assertNotNull(u);
     }
+
+    @Test
+    public void tes(){
+
+    }
 }
