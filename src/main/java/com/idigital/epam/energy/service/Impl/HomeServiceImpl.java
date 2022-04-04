@@ -5,23 +5,14 @@ import com.idigital.epam.energy.entity.Home;
 import com.idigital.epam.energy.entity.User;
 import com.idigital.epam.energy.enums.BuildingType;
 import com.idigital.epam.energy.hmac.HMACUtilsService;
-import com.idigital.epam.energy.repository.AddressRepository;
 import com.idigital.epam.energy.repository.HomeRepository;
 import com.idigital.epam.energy.repository.UserRepository;
-import com.idigital.epam.energy.service.AddressService;
-import com.idigital.epam.energy.service.CommonService;
+import com.idigital.epam.energy.service.*;
 import com.idigital.epam.energy.service.DTO.*;
 
-import com.idigital.epam.energy.service.HomeService;
-import com.idigital.epam.energy.service.UserService;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +36,12 @@ public class HomeServiceImpl implements HomeService, CommonService<Home> {
     @Autowired
     AddressService addressService;
 
+    @Autowired
+    ResidentService residentService;
 
+    public static final String KEY_ID = "ENERGY";
+    public static final String SECRET_KEY = "ENERGY";
+    public static final String REQUEST_PATH = "http://citymanagementbackend-env-1.eba-3swwhqnr.us-east-2.elasticbeanstalk.com/api/v1/request/homesWithOwner";
 
     @Override
     public List<Home> getAll() {
@@ -58,14 +54,15 @@ public class HomeServiceImpl implements HomeService, CommonService<Home> {
 
     @Override
     public Home getById(Long id) {
-        return Optional.of(homeRepository.findById(id)).filter(Optional::isPresent).get().get();
+        Optional<Home> home = homeRepository.findById(id);
+        return home.orElse(null);
     }
 
 
 
     @Override
     public Home create() throws Exception{
-        String aas =  hmACUtils.getRequestWithHmac("ENERGY", "get_homes", "http://citymanagementbackend-env-1.eba-3swwhqnr.us-east-2.elasticbeanstalk.com/api/v1/request/homesWithOwner", "energyKey").getBody().toString();
+        String aas =  residentService.getHmacRequest(KEY_ID,"get_homes", REQUEST_PATH, SECRET_KEY);
         ObjectMapper mapper = new ObjectMapper();
         Response json = mapper.readValue(aas, Response.class);
 
@@ -100,11 +97,9 @@ public class HomeServiceImpl implements HomeService, CommonService<Home> {
 
     @Override
     public Home createInstitutional() throws Exception {
-
-        String aas =  hmACUtils.getRequestWithHmac("ENERGY", "get_homes", "http://citymanagementbackend-env-1.eba-3swwhqnr.us-east-2.elasticbeanstalk.com/api/v1/request/homesWithOwner", "energyKey").getBody().toString();
-
+        String institution =  residentService.getHmacRequest(KEY_ID,"get_institutional",REQUEST_PATH, SECRET_KEY);
         ObjectMapper mapper = new ObjectMapper();
-        Response json = mapper.readValue(aas, Response.class);
+        Response json = mapper.readValue(institution, Response.class);
 
         Home home;
         Address address;
@@ -136,8 +131,6 @@ public class HomeServiceImpl implements HomeService, CommonService<Home> {
 
     @Override
     public Home update(Home data) throws Exception{
-
-
         if(data.getId() != null){
             Home newHome = homeRepository.findById(data.getId()).get();
             newHome.setHomeCode(data.homeCode);
@@ -148,10 +141,9 @@ public class HomeServiceImpl implements HomeService, CommonService<Home> {
         }
         throw new Exception("Id shouldn't be null");
     }
-
     @Override
     public void delete(Home data) {
-        homeRepository.deleteById(data.getId());
+        // TODO : homeRepository.deleteById(data.getId());
     }
 
     public Result getHomesByCardNumber(Long cardNumber){

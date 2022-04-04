@@ -12,7 +12,7 @@ public class ResidentServiceImpl implements ResidentService {
     HMACUtilsService hmacUtils;
 
     @Override
-    public String getResident(Long cardNumber) throws Exception {
-        return hmacUtils.getRequestWithHmac("ENERGY", "get_resident", "http://citymanagementbackend-env-1.eba-3swwhqnr.us-east-2.elasticbeanstalk.com/api/v1/resident/card/" + cardNumber, "energyKey").getBody().toString();
+    public String getHmacRequest(String keyId, String action, String path, String secretKey) throws Exception {
+        return String.valueOf(hmacUtils.getRequestWithHmac(keyId, action, path, secretKey).getBody());
     }
 }

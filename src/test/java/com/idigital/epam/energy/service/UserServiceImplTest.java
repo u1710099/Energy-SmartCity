@@ -3,7 +3,6 @@ package com.idigital.epam.energy.service;
 import com.google.gson.Gson;
 import com.idigital.epam.energy.common.CommonTestObjects;
 import com.idigital.epam.energy.entity.User;
-import com.idigital.epam.energy.hmac.HMACUtilsService;
 import com.idigital.epam.energy.repository.RoleRepository;
 import com.idigital.epam.energy.repository.UserRepository;
 import com.idigital.epam.energy.security.JwtUtil;
@@ -16,19 +15,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.json.GsonTester;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,7 +61,7 @@ public class UserServiceImplTest {
         when(userRepository.findUserByCardNumber(anyString())).thenReturn(Optional.of(CommonTestObjects.getUserObject()));
         when(userRepository.save(any())).thenReturn(CommonTestObjects.getUserObject());
         String resident = new Gson().toJson(CommonTestObjects.getResponseResident());
-        when(residentService.getResident(anyLong())).thenReturn(resident);
+        when(residentService.getHmacRequest(anyString(),anyString(),anyString(),anyString())).thenReturn(resident);
         doThrow(new RuntimeException()).when(userRepository).findUserByCardNumber(any());
     }
 
@@ -118,7 +112,7 @@ public class UserServiceImplTest {
     @DisplayName("Test create user without exception")
     public void testCreateUserWithoutException() throws Exception {
         String resident = new Gson().toJson(CommonTestObjects.getResponseResident());
-        when(residentService.getResident(anyLong())).thenReturn(resident);
+        when(residentService.getHmacRequest(anyString(),anyString(),anyString(),anyString())).thenReturn(resident);
         User user = userService.create(1000L, "password");
         assertNull( user);
     }

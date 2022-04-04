@@ -8,6 +8,9 @@ import com.idigital.epam.energy.enums.BuildingType;
 import com.idigital.epam.energy.payload.EnergyResponse;
 import com.idigital.epam.energy.service.DTO.*;
 
+import java.util.Collections;
+
+
 public class CommonTestObjects {
     public static User getUserObject(){
         User u = new User();
@@ -86,5 +89,39 @@ public class CommonTestObjects {
                 .energyMeter(
                         getEnergyMeter()
                 ).build();
+    }
+
+    public static com.idigital.epam.energy.entity.Address getAddressObject() {
+        return  com.idigital.epam.energy.entity.Address.builder()
+                .street("Street")
+                .district("district")
+                .build();
+    }
+
+    public static Home getHomeTestObject(){
+        return Home
+                .builder()
+                .homeCode(22L)
+                .address(getAddressObject())
+                .id(55L)
+                .buildingType(BuildingType.RESIDENTIAL)
+                .build();
+    }
+
+    public static Response getResponseTestObject(){
+        return Response
+                .builder()
+                .success(true)
+                .result(
+                        Collections.singletonList(Result
+                        .builder()
+                                .cardNumber(33L)
+                                .homes(Collections.singletonList(HomeDto
+                                        .builder()
+                                                .address(getAddressObject())
+                                                .homeCode(88L)
+                                        .build()))
+                        .build()))
+                .build();
     }
 }

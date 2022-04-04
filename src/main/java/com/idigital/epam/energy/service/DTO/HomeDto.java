@@ -3,15 +3,13 @@ package com.idigital.epam.energy.service.DTO;
 
 import com.idigital.epam.energy.entity.Address;
 import com.idigital.epam.energy.enums.BuildingType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 
 public class HomeDto {
     private Long homeCode;

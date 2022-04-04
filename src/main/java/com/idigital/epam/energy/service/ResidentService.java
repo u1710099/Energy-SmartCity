@@ -1,5 +1,5 @@
 package com.idigital.epam.energy.service;
 
 public interface ResidentService {
-    String getResident(Long cardNumber) throws Exception;
+    String getHmacRequest(String keyId, String action, String path, String secretKey) throws Exception;
 }

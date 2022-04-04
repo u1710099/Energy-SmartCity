@@ -1,6 +1,5 @@
 package com.idigital.epam.energy.service.Impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.idigital.epam.energy.entity.Role;
 import com.idigital.epam.energy.entity.User;
@@ -83,7 +82,11 @@ public class UserServiceImpl implements UserService {
     public User create(Long cardNumber, String password) throws Exception {
 
         try {
-            String resident = residentService.getResident(cardNumber);
+            String keyId = "ENERGY";
+            String action = "get_resident";
+            String path = "http://citymanagementbackend-env-1.eba-3swwhqnr.us-east-2.elasticbeanstalk.com/api/v1/resident/card/" + cardNumber;
+            String secretKey = "energyKey";
+            String resident = residentService.getHmacRequest(keyId,action,path,secretKey);
             ResponseResident user = new Gson().fromJson(resident, ResponseResident.class);
             User u = new User("id:4", "cardNumber:11111111", "password:34533", "firstName:Alex", "LastName:Finn", "active:true", "role:admin");
             Optional<User> userOptional = userRepository.findUserByCardNumber(cardNumber.toString());
